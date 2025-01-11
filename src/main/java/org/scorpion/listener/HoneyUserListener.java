@@ -29,9 +29,9 @@ public class HoneyUserListener implements Listener {
     public void on(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         User user = new HoneyUser(p.getUniqueId());
-        e.setJoinMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("join-message", p.getName())));
+        user.createUser();
 
-        Bukkit.getScheduler().runTaskLater(HoneyCore.getPlugin(), user::createUser, 5);
+        e.setJoinMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("join-message", p.getName())));
 
         Bukkit.getScheduler().runTaskLater(HoneyCore.getPlugin(), () -> {
             if (p.hasPermission(HoneyAPI.getPermission("notify"))) {
@@ -123,7 +123,7 @@ public class HoneyUserListener implements Listener {
 
         if (e.getEntity() instanceof Player p) {
             HoneyUser user = new HoneyUser(p.getUniqueId());
-            if (user.getGod().equalsIgnoreCase("true")) {
+            if (user.hasGod()) {
                 e.setCancelled(true);
             }
         }

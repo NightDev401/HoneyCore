@@ -51,7 +51,7 @@ public interface User {
 
     long getTime();
 
-    String getGod();
+    boolean hasGod();
 
     void setGod(boolean b);
 

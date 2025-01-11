@@ -1,5 +1,9 @@
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
+
 plugins {
     id 'java'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.13'
+    id 'com.gradleup.shadow' version '9.0.0-beta4'
 }
 
 compileJava {
@@ -7,22 +11,27 @@ compileJava {
 }
 
 group 'org.scorpion'
+version 'SNAPSHOT-2.1.0'
 
 repositories {
-    mavenCentral()
     maven {
-        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        url = "https://repo.papermc.io/repository/maven-public/"
     }
+    mavenCentral()
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
-    implementation 'org.jetbrains:annotations:23.0.0'
+    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
+    compileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
+    implementation 'org.jetbrains:annotations:26.0.1'
+    implementation files("Libraries/OpenAPI.jar")
 }
+
+paperweight.reobfArtifactConfiguration = ReobfArtifactConfiguration.Companion.MOJANG_PRODUCTION
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -31,8 +40,4 @@ jar {
     from {
         subprojects.collect { it.sourceSets.main.output }
     }
-}
-
-test {
-    useJUnitPlatform()
 }

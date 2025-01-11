@@ -41,3 +41,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 /.gradle/
+/.gradle/buildOutputCleanup/
+/.gradle/checksums/
+/.gradle/vcs-1/

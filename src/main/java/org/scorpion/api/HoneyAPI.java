@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.scorpion.user.HoneyUser;
 import org.scorpion.util.file.FileManager;
 import org.scorpion.util.user.User;
+import pl.nightdev701.OpenAPI;
+import pl.nightdev701.network.HttpRequestHandler;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -21,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class HoneyAPI {
 
-    public final static String VERSION = "2.0.0-SNAPSHOT";
+    public final static String VERSION = "2.1.0-SNAPSHOT";
     protected static final LinkedList<String> warps = new LinkedList<>();
     protected static final HashMap<Player, Player> tpa = new HashMap<>();
     protected static final HashMap<Player, Player> tpaHere = new HashMap<>();
@@ -157,10 +159,6 @@ public class HoneyAPI {
     }
 
     public static void acceptTPA(Player target) {
-        if (target.getWorld().getName().equalsIgnoreCase("world_monster")) {
-            tpa.remove(target);
-            return;
-        }
         if (tpa.containsKey(target)) {
             Player sender = tpa.get(target);
             sender.teleport(target);
@@ -209,7 +207,9 @@ public class HoneyAPI {
     }
 
     public static String getPluginVersion() {
-        return null;
+        HttpRequestHandler req = OpenAPI.getRequestHandler("https://sunlightscorpion.de/api/sunlightscorpion/honeycore.slsd");
+        req.request();
+        return req.getHtmlLines().getFirst();
     }
 
     public static boolean needUpdate(String version) {
@@ -279,10 +279,7 @@ public class HoneyAPI {
 
     public static void sendNoPermission(Player p) {
         FileManager file = new FileManager("plugins/HoneyCore/Settings.yml");
-        var lang = file.getString("language").toLowerCase();
-        FileManager currentLangData = new FileManager("plugins/HoneyCore/Lang/" + lang + ".yml");
-        var m = currentLangData.getString("message.no-permission").replace("%prefix%", file.getString("prefix"));
-        p.sendMessage(getColorCode(m));
+        p.sendMessage(getColorCode(file.getString("message.no-permission").replace("%prefix%", file.getString("prefix"))));
     }
 
     public static String getCurrentDate() {

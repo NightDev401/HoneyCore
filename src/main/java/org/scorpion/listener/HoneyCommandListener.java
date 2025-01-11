@@ -14,11 +14,11 @@ public class HoneyCommandListener implements Listener {
     @EventHandler
     public void on(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
-        String cmd = e.getMessage().split(" ")[0];
+        String cmd = e.getMessage().split(" ")[0].toLowerCase();
 
         if (HoneyAPI.hideServerDetails()) {
-            if (cmd.equalsIgnoreCase("/bukkit:") ||
-                    cmd.equalsIgnoreCase("/minecraft:") ||
+            if (cmd.startsWith("/bukkit:") ||
+                    cmd.startsWith("/minecraft:") ||
                     cmd.equalsIgnoreCase("/version") ||
                     cmd.equalsIgnoreCase("/icanhasbukkit") ||
                     cmd.equalsIgnoreCase("/?") ||
@@ -26,8 +26,7 @@ public class HoneyCommandListener implements Listener {
                     cmd.equalsIgnoreCase("/pl") ||
                     cmd.equalsIgnoreCase("/me") ||
                     cmd.equalsIgnoreCase("/help") ||
-                    cmd.equalsIgnoreCase("/ver") ||
-                    cmd.equalsIgnoreCase("/bungee")) {
+                    cmd.equalsIgnoreCase("/ver")) {
                 if (!p.hasPermission(HoneyAPI.getPermission("admin"))) {
                     HoneyAPI.sendNoPermission(p);
                     e.setCancelled(true);
