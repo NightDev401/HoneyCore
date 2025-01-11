@@ -157,10 +157,6 @@ public class HoneyAPI {
     }
 
     public static void acceptTPA(Player target) {
-        if (target.getWorld().getName().equalsIgnoreCase("world_monster")) {
-            tpa.remove(target);
-            return;
-        }
         if (tpa.containsKey(target)) {
             Player sender = tpa.get(target);
             sender.teleport(target);
