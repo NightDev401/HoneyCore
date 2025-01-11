@@ -11,7 +11,7 @@ compileJava {
 }
 
 group 'org.scorpion'
-version 'SNAPSHOT-2.1'
+version 'SNAPSHOT-2.1.0'
 
 repositories {
     maven {
