@@ -17,9 +17,9 @@ public class CommandGod implements CommandExecutor {
             if (p.hasPermission(HoneyAPI.getPermission("god"))) {
                 if (args.length == 0) {
                     HoneyUser user = new HoneyUser(p.getUniqueId());
-                    user.setGod(!user.getGod().equalsIgnoreCase("true"));
+                    user.setGod(!user.hasGod());
 
-                    p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.god").replace("%state%", user.getGod())));
+                    p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.god").replace("%state%", String.valueOf(user.hasGod()))));
                 }
 
                 if (args.length == 1) {
@@ -29,9 +29,9 @@ public class CommandGod implements CommandExecutor {
 
                         HoneyUser user = new HoneyUser(t.getUniqueId());
 
-                        user.setGod(!user.getGod().equalsIgnoreCase("true"));
+                        user.setGod(!user.hasGod());
 
-                        p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.god-target").replace("%state%", user.getGod()).replace("%target%", t.getName())));
+                        p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.god-target").replace("%state%", String.valueOf(user.hasGod())).replace("%target%", t.getName())));
                     } else {
                         HoneyAPI.sendNoPermission(p);
                     }

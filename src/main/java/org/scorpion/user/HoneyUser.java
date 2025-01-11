@@ -24,16 +24,13 @@ public record HoneyUser(UUID uuid) implements User {
 
     @Override
     public boolean existPlayer() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         return file.exist();
     }
 
     @Override
     public void createUser() {
         if (!existPlayer()) {
-            FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
-            file.set("money", "100");
-            file.save();
 
             var off = Bukkit.getOfflinePlayer(uuid);
 
@@ -50,6 +47,7 @@ public record HoneyUser(UUID uuid) implements User {
 
                 player.teleport(HoneyAPI.getSpawn());
                 player.getInventory().addItem(kit);
+                setGod(false);
 
                 if (HoneyAPI.welcomeNewPlayer()) {
                     Bukkit.broadcastMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.welcome-new-player", player.getName())));
@@ -72,13 +70,13 @@ public record HoneyUser(UUID uuid) implements User {
 
     @Override
     public Location getHome(String name) {
-        FileManager file = new FileManager("plugins/HoneyCore/playerdata/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/playerdata/" + uuid().toString() + ".yml");
         return file.getLocation("home-" + name);
     }
 
     @Override
     public void addHome(String home) {
-        FileManager file = new FileManager("plugins/HoneyCore/playerdata/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/playerdata/" + uuid().toString() + ".yml");
         List<String> list = getHomes();
         if (!list.contains(home)) {
             list.add(home);
@@ -144,33 +142,33 @@ public record HoneyUser(UUID uuid) implements User {
 
     @Override
     public Location getDeathPoint() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         return file.getLocation("death-point");
     }
 
     @Override
     public void setDeathPoint(Location location) {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         file.set("death-point", location);
         file.save();
     }
 
     @Override
     public void setOnlineTime() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid.toString() + ".yml");
         file.set("PlayerTime", HoneyAPI.getCurrentDate());
         file.save();
     }
 
     @Override
     public String getOnlineTime() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid.toString() + ".yml");
         return file.getString("PlayerTime");
     }
 
     @Override
     public void ban(String reason, long ms, Time time) {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         long var = time.getTime() + ms;
         file.set("Reason", reason);
         file.set("Time", System.currentTimeMillis() + var);
@@ -180,13 +178,13 @@ public record HoneyUser(UUID uuid) implements User {
 
     @Override
     public boolean isBanned() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         return file.getBoolean("Banned");
     }
 
     @Override
     public void unban() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         file.deleteLine("Reason");
         file.deleteLine("Time");
         file.set("Banned", false);
@@ -195,25 +193,25 @@ public record HoneyUser(UUID uuid) implements User {
 
     @Override
     public String getReason() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         return file.getString("Reason");
     }
 
     @Override
     public long getTime() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         return file.getLong("Time");
     }
 
     @Override
-    public String getGod() {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
-        return file.getString("God");
+    public boolean hasGod() {
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
+        return file.getBoolean("God");
     }
 
     @Override
     public void setGod(boolean b) {
-        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid() + ".yml");
+        FileManager file = new FileManager("plugins/HoneyCore/User/" + uuid().toString() + ".yml");
         file.set("God", b);
         file.save();
     }
