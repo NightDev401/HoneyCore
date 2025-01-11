@@ -279,10 +279,7 @@ public class HoneyAPI {
 
     public static void sendNoPermission(Player p) {
         FileManager file = new FileManager("plugins/HoneyCore/Settings.yml");
-        var lang = file.getString("language").toLowerCase();
-        FileManager currentLangData = new FileManager("plugins/HoneyCore/Lang/" + lang + ".yml");
-        var m = currentLangData.getString("message.no-permission").replace("%prefix%", file.getString("prefix"));
-        p.sendMessage(getColorCode(m));
+        p.sendMessage(getColorCode(file.getString("message.no-permission").replace("%prefix%", file.getString("prefix"))));
     }
 
     public static String getCurrentDate() {

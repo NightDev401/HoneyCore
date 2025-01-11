@@ -16,9 +16,12 @@ public class CommandGameMode implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player p) {
+            if (!p.hasPermission(HoneyAPI.getPermission("gamemode"))) {
+                HoneyAPI.sendNoPermission(p);
+                return false;
+            }
             if (args.length == 1) {
                 String data = args[0];
-                if (p.hasPermission(HoneyAPI.getPermission("gamemode"))) {
                     switch (data) {
                         case "0", "survival" -> {
                             p.setGameMode(GameMode.SURVIVAL);
@@ -37,9 +40,6 @@ public class CommandGameMode implements CommandExecutor {
                             p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.gamemode").replace("%gm%", p.getGameMode().toString())));
                         }
                     }
-                } else {
-                    HoneyAPI.sendNoPermission(p);
-                }
             } else if (args.length == 2) {
                 String data = args[0];
                 Player t = Bukkit.getPlayer(args[1]);
@@ -48,7 +48,6 @@ public class CommandGameMode implements CommandExecutor {
                     p.sendMessage(HoneyAPI.getColorCode(HoneyAPI.getMessage("message.player-not-found").replace("%target%", args[1])));
                     return true;
                 }
-
                 if (p.hasPermission(HoneyAPI.getPermission("gamemode-target"))) {
                     switch (data) {
                         case "0", "survival" -> {
