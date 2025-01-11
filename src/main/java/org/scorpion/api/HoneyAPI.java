@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.scorpion.user.HoneyUser;
 import org.scorpion.util.file.FileManager;
 import org.scorpion.util.user.User;
+import pl.nightdev701.OpenAPI;
+import pl.nightdev701.network.HttpRequestHandler;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -205,7 +207,9 @@ public class HoneyAPI {
     }
 
     public static String getPluginVersion() {
-        return null;
+        HttpRequestHandler req = OpenAPI.getRequestHandler("https://sunlightscorpion.de/api/sunlightscorpion/honeycore.slsd");
+        req.request();
+        return req.getHtmlLines().getFirst();
     }
 
     public static boolean needUpdate(String version) {

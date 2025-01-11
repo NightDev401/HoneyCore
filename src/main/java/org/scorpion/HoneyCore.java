@@ -74,6 +74,8 @@ public class HoneyCore extends JavaPlugin {
 
         HoneyAPI.manageLang();
         HoneyAPI.initWarp();
+
+        System.out.println("!!! >>> " + HoneyAPI.getPluginVersion() +" <<< !!!");
     }
 
 }
